@@ -8,31 +8,34 @@ function main () {
   const game = new Game(canvas.ctx, canvasWidth, canvasHeight);
 
   // Build Splash
-
   function buildSplash () {
     game.buildSplash();
-    canvas.canvasElement.addEventListener('click', destroySplash);
+    canvas.canvasElement.addEventListener('click', startGame);
   }
 
   // Desktroy Splash and build Game
-  function destroySplash () {
-    canvas.canvasElement.removeEventListener('click', destroySplash);
+  function startGame () {
+    canvas.canvasElement.removeEventListener('click', startGame);
     game.destroySplash();
     buildGame();
   }
 
   function buildGame () {
-    game.buildGame();
+    game.build();
+    window.addEventListener('keydown', handleKeyDown);
   }
 
   // Destroy Game and build Game Over
   function destroyGame () {
-
+    game.destroy();
+    buildGameOver();
   }
 
   function buildGameOver () {
-
+    game.buildGameOver();
+    canvas.canvasElement.addEventListener('click', startGame);
   }
+
   buildSplash();
 }
 

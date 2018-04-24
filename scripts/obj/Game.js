@@ -5,6 +5,8 @@ class Game {
     this.ctx = ctx;
     this.canvasWidth = canvasWidth;
     this.canvasHeight = canvasHeight;
+    this.players = [];
+    this.balls = [];
   }
 
   buildSplash () {
@@ -26,15 +28,45 @@ class Game {
     this.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
   }
 
-  buildGame () {
+  build () {
     this.drawGame();
+    this.doFrame();
+    this.player1 = new Player(this.ctx, 20, this.canvasHeight / 2, 3, 20);
+    this.player2 = new Player(this.ctx, this.canvasWidth - 20, this.canvasHeight / 2, 3, 20);
+
+    this.players.push(this.player1);
+    this.players.push(this.player2);
+
+    this.player1.draw();
+    this.player2.draw();
+  }
+
+  clearCanvas () {
+    this.ctx.fillStyle = 'black';
+    this.ctx.fillRect(0, 0, this.canvasWidth, this.canvasHeight);
   }
 
   drawGame () {
-    this.ctx.fillStyle = 'black';
-    this.ctx.fillRect(0, 0, this.canvasWidth, this.canvasHeight);
+    this.clearCanvas();
     this.ctx.fillStyle = 'white';
     this.ctx.fillRect(10, 0, this.canvasWidth - 20, 20);
     this.ctx.fillRect(10, this.canvasHeight - 20, this.canvasWidth - 20, 20);
+  }
+
+  destroy () {
+    this.clearCanvas();
+  }
+
+  buildGameOver () {
+    this.ctx.font = '25px sans-serif';
+    this.ctx.fillStyle = 'white';
+    this.ctx.textAlign = 'center';
+    this.ctx.fillText('Game Over', this.canvasWidth / 2, this.canvasHeight - this.canvasHeight / 2);
+  }
+
+  doFrame () {
+    window.requestAnimationFrame(() => {
+      this.doFrame();
+    });
   }
 }
