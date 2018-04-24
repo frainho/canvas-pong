@@ -2,13 +2,13 @@
 
 class Canvas {
   constructor (width, height) {
-    this.canvas = document.createElement('canvas');
-    this.canvas.setAttribute('width', width);
-    this.canvas.setAttribute('height', height);
+    this.canvasElement = document.createElement('canvas');
+    this.canvasElement.setAttribute('width', width);
+    this.canvasElement.setAttribute('height', height);
 
     this.container = document.querySelector('.container');
-    this.container.appendChild(this.canvas);
+    this.container.appendChild(this.canvasElement);
 
-    this.ctx = this.canvas.getContext('2d');
+    this.ctx = this.canvasElement.getContext('2d');
   }
 }
