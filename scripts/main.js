@@ -23,12 +23,23 @@ function main () {
   function buildGame () {
     game.build();
     window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keyup', handleKeyUp);
+  }
+
+  function handleKeyDown (event) {
+    game.handleKeyDown(event.key);
+  }
+
+  function handleKeyUp (event) {
+    game.handleKeyUp(event.key);
   }
 
   // Destroy Game and build Game Over
   function destroyGame () {
     game.destroy();
     buildGameOver();
+    window.removeEventListener('keydown', handleKeyDown);
+    window.removeEventListener('keyup', handleKeyUp);
   }
 
   function buildGameOver () {
