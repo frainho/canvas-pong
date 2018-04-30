@@ -7,6 +7,7 @@ class Game {
     this.canvasHeight = canvasHeight;
     this.player1 = null;
     this.player2 = null;
+    this.ball = null;
     this.players = [];
     this.balls = [];
   }
@@ -32,21 +33,20 @@ class Game {
   }
 
   build () {
-    this.drawGame();
-    this.player1 = new Player(this.ctx, 20, this.canvasHeight / 2, 3, 20, 'right');
-    this.player2 = new Player(this.ctx, this.canvasWidth - 20, this.canvasHeight / 2, 3, 20, 'left');
+    this.player1 = new Player(this.ctx, 'left', this.canvasWidth, this.canvasHeight);
+    this.player2 = new Player(this.ctx, 'right', this.canvasWidth, this.canvasHeight);
+    this.ball = new Ball(this.ctx, this.canvasWidth, this.canvasHeight);
 
     this.players.push(this.player1);
     this.players.push(this.player2);
 
-    this.player1.draw();
-    this.player2.draw();
+    this.balls.push(this.ball);
+
     this.doFrame();
   }
 
   clearCanvas () {
-    this.ctx.fillStyle = 'black';
-    this.ctx.fillRect(0, 0, this.canvasWidth, this.canvasHeight);
+    this.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
   }
 
   drawGame () {
@@ -80,15 +80,12 @@ class Game {
     switch (key) {
     case 'w':
       this.player1.setSpeed(0);
-      this.player1.setDirection('up');
       break;
     case 's':
       this.player1.setSpeed(0);
-      this.player1.setDirection('down');
       break;
     case 'ArrowUp':
       this.player2.setSpeed(0);
-      this.player2.setDirection('up');
       break;
     case 'ArrowDown':
       this.player2.setSpeed(0);
@@ -100,13 +97,24 @@ class Game {
   doFrame () {
     this.clearCanvas();
     this.drawGame();
+    this.checkCollisionWall(this.player1);
+    this.checkCollisionWall(this.player2);
     this.player1.update();
     this.player2.update();
     this.player1.draw();
     this.player2.draw();
+    this.ball.draw();
     window.requestAnimationFrame(() => {
       this.doFrame();
     });
+  }
+
+  checkCollisionWall (player) {
+    if (player.y - player.height <= 20) {
+      player.setPosition(5, 'up');
+    } else if (player.y + player.height >= this.canvasHeight - 20) {
+      player.setPosition(5, 'down');
+    }
   }
 
   destroy () {

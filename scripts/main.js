@@ -20,18 +20,18 @@ function main () {
     buildGame();
   }
 
-  function buildGame () {
-    game.build();
-    window.addEventListener('keydown', handleKeyDown);
-    window.addEventListener('keyup', handleKeyUp);
-  }
-
   function handleKeyDown (event) {
     game.handleKeyDown(event.key);
   }
 
   function handleKeyUp (event) {
     game.handleKeyUp(event.key);
+  }
+
+  function buildGame () {
+    game.build();
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keyup', handleKeyUp);
   }
 
   // Destroy Game and build Game Over

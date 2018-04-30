@@ -1,15 +1,20 @@
 'use strict';
 
 class Player {
-  constructor (ctx, initialX, initialY, width, height, side) {
+  constructor (ctx, side, canvasWidth, canvasHeight) {
     this.ctx = ctx;
-    this.x = initialX;
-    this.y = initialY;
-    this.width = width * 2;
-    this.height = height * 2;
+    this.side = side;
+    this.y = canvasHeight / 2;
+    this.width = 6;
+    this.height = 40;
     this.speed = 0;
     this.direction = null;
-    this.side = side;
+
+    if (this.side === 'left') {
+      this.x = 20;
+    } else {
+      this.x = canvasWidth - 20;
+    }
   }
 
   draw () {
@@ -42,5 +47,13 @@ class Player {
 
   moveDown () {
     this.y += this.speed;
+  }
+
+  setPosition (offset, direction) {
+    if (direction === 'up') {
+      this.y += offset;
+    } else {
+      this.y -= offset;
+    }
   }
 }
