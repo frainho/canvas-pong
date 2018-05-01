@@ -101,8 +101,8 @@ class Game {
     this.drawGame();
     this.checkPlayerCollisionWall();
     this.checkBallCollisionWall();
-    this.checkBallCollisionPlayerLeft();
-    this.checkBallCollisionPlayerRight();
+    this.checkBallCollisionPlayer(this.player1, -1);
+    this.checkBallCollisionPlayer(this.player2, 1);
     this.player1.update();
     this.player2.update();
     this.player1.draw();
@@ -116,9 +116,9 @@ class Game {
 
   checkPlayerCollisionWall () {
     this.players.forEach(player => {
-      if (player.y - player.height <= 20) {
+      if (player.y - player.height / 2 <= 20) {
         player.setPosition(5, 'up');
-      } else if (player.y + player.height >= this.canvasHeight - 20) {
+      } else if (player.y + player.height / 2 >= this.canvasHeight - 20) {
         player.setPosition(5, 'down');
       }
     });
@@ -134,20 +134,31 @@ class Game {
     });
   }
 
-  checkBallCollisionPlayerLeft () {
+  checkBallCollisionPlayer (player, sign) {
     this.balls.forEach(ball => {
-      const ballCollidingLeft =
-        ball.centerX - ball.radius < this.player1.x + this.player1.width &&
-        ball.centerY - ball.radius > this.player1.y - this.player1.height / 2 &&
-        ball.centerY - ball.radius < this.player1.y + this.player1.height / 2;
+      const collidesPlayerTop = ball.centerY - ball.radius > player.y - player.height / 2;
+      const collidesPlayerBottom = ball.centerY + ball.radius < player.y + player.height / 2;
+      const collidesSideLeft = ball.centerX - ball.radius < player.x + player.width / 2;
+      const collidesSideRight = ball.centerX + ball.radius > player.x - player.width / 2;
 
-      if (ballCollidingLeft) {
-        ball.swapHoriDirection();
+      if (collidesPlayerTop && collidesPlayerBottom) {
+        if (collidesSideLeft || collidesSideRight) {
+          ball.swapHoriDirection();
+        }
       }
     });
   }
 
-  checkBallCollisionPlayerRight () {
+  /* checkBallCollisionPlayerLeft() {
+    this.balls.forEach(ball => {
+      const ballCollidingLeft =
+        ball.centerX - ball.radius < this.player1.x + this.player1.width &&
+         &&
+
+    });
+  }
+
+  checkBallCollisionPlayerRight() {
     this.balls.forEach(ball => {
       const ballCollidingRight =
         ball.centerX + ball.radius > this.player2.x - this.player2.width &&
@@ -159,7 +170,7 @@ class Game {
       }
     });
   }
-
+ */
   destroy () {
     this.clearCanvas();
   }

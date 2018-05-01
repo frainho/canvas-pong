@@ -6,8 +6,8 @@ class Ball {
     this.centerX = canvasWidth / 2;
     this.centerY = canvasHeight / 2;
     this.radius = 10;
-    this.movingUp = true;
-    this.movingRight = false;
+    this.directionV = -1;
+    this.directionH = -1;
   }
 
   draw () {
@@ -17,15 +17,15 @@ class Ball {
   }
 
   swapVertDirection () {
-    this.movingUp = !this.movingUp;
+    this.directionV = -this.directionV;
   }
 
   swapHoriDirection () {
-    this.movingRight = !this.movingRight;
+    this.directionH = -this.directionH;
   }
 
   update () {
-    this.movingUp ? this.centerY-- : this.centerY++;
-    this.movingRight ? this.centerX++ : this.centerX--;
+    this.centerY = this.directionV + this.centerY;
+    this.centerX = this.directionH + this.centerX;
   }
 }

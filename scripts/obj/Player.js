@@ -5,8 +5,8 @@ class Player {
     this.ctx = ctx;
     this.side = side;
     this.y = canvasHeight / 2;
-    this.width = 6;
-    this.height = 40;
+    this.width = 10;
+    this.height = 120;
     this.speed = 0;
     this.direction = null;
 
@@ -20,7 +20,7 @@ class Player {
   draw () {
     this.ctx.beginPath();
     this.ctx.fillStyle = 'white';
-    this.ctx.fillRect(this.x - this.width, this.y - this.height, this.width * 2, this.height * 2);
+    this.ctx.fillRect(this.x - this.width / 2, this.y - this.height / 2, this.width, this.height);
   }
 
   setSpeed (speed) {
