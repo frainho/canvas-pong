@@ -5,9 +5,11 @@ class Game {
     this.ctx = ctx;
     this.canvasWidth = canvasWidth;
     this.canvasHeight = canvasHeight;
+
     this.player1 = null;
     this.player2 = null;
     this.ball = null;
+
     this.players = [];
     this.balls = [];
   }
@@ -97,24 +99,65 @@ class Game {
   doFrame () {
     this.clearCanvas();
     this.drawGame();
-    this.checkCollisionWall(this.player1);
-    this.checkCollisionWall(this.player2);
+    this.checkPlayerCollisionWall();
+    this.checkBallCollisionWall();
+    this.checkBallCollisionPlayerLeft();
+    this.checkBallCollisionPlayerRight();
     this.player1.update();
     this.player2.update();
     this.player1.draw();
     this.player2.draw();
     this.ball.draw();
+    this.ball.update();
     window.requestAnimationFrame(() => {
       this.doFrame();
     });
   }
 
-  checkCollisionWall (player) {
-    if (player.y - player.height <= 20) {
-      player.setPosition(5, 'up');
-    } else if (player.y + player.height >= this.canvasHeight - 20) {
-      player.setPosition(5, 'down');
-    }
+  checkPlayerCollisionWall () {
+    this.players.forEach(player => {
+      if (player.y - player.height <= 20) {
+        player.setPosition(5, 'up');
+      } else if (player.y + player.height >= this.canvasHeight - 20) {
+        player.setPosition(5, 'down');
+      }
+    });
+  }
+
+  checkBallCollisionWall () {
+    this.balls.forEach(ball => {
+      if (ball.centerY - ball.radius < 20) {
+        ball.swapVertDirection();
+      } else if (ball.centerY + ball.radius > this.canvasHeight - 20) {
+        ball.swapVertDirection();
+      }
+    });
+  }
+
+  checkBallCollisionPlayerLeft () {
+    this.balls.forEach(ball => {
+      const ballCollidingLeft =
+        ball.centerX - ball.radius < this.player1.x + this.player1.width &&
+        ball.centerY - ball.radius > this.player1.y - this.player1.height / 2 &&
+        ball.centerY - ball.radius < this.player1.y + this.player1.height / 2;
+
+      if (ballCollidingLeft) {
+        ball.swapHoriDirection();
+      }
+    });
+  }
+
+  checkBallCollisionPlayerRight () {
+    this.balls.forEach(ball => {
+      const ballCollidingRight =
+        ball.centerX + ball.radius > this.player2.x - this.player2.width &&
+        ball.centerY - ball.radius > this.player2.y - this.player2.height / 2 &&
+        ball.centerY - ball.radius < this.player2.y + this.player2.height / 2;
+
+      if (ballCollidingRight) {
+        ball.swapHoriDirection();
+      }
+    });
   }
 
   destroy () {

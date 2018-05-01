@@ -18,6 +18,7 @@ class Player {
   }
 
   draw () {
+    this.ctx.beginPath();
     this.ctx.fillStyle = 'white';
     this.ctx.fillRect(this.x - this.width, this.y - this.height, this.width * 2, this.height * 2);
   }
