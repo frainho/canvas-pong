@@ -102,7 +102,7 @@ class Game {
     this.checkPlayerCollisionWall();
     this.checkBallCollisionWall();
     this.checkBallCollisionPlayer(this.player1, -1);
-    this.checkBallCollisionPlayer(this.player2, 1);
+    //this.checkBallCollisionPlayer(this.player2, 1);
     this.player1.update();
     this.player2.update();
     this.player1.draw();
@@ -138,11 +138,10 @@ class Game {
     this.balls.forEach(ball => {
       const collidesPlayerTop = ball.centerY - ball.radius > player.y - player.height / 2;
       const collidesPlayerBottom = ball.centerY + ball.radius < player.y + player.height / 2;
-      const collidesSideLeft = ball.centerX - ball.radius < player.x + player.width / 2;
-      const collidesSideRight = ball.centerX + ball.radius > player.x - player.width / 2;
+      const collidesPlayer = ball.centerX - ball.radius < player.x + player.width / 2;
 
       if (collidesPlayerTop && collidesPlayerBottom) {
-        if (collidesSideLeft || collidesSideRight) {
+        if (collidesPlayer) {
           ball.swapHoriDirection();
         }
       }

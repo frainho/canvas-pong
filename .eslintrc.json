@@ -10,7 +10,8 @@
         "console": false,
         "Game": false,
         "Player": false,
-        "Ball": false
+        "Ball": false,
+        "Canvas": false
     },
     "rules": {
         "indent": [
