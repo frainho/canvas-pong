@@ -6,8 +6,8 @@ class Ball {
     this.centerX = canvasWidth / 2;
     this.centerY = canvasHeight / 2;
     this.radius = 10;
-    this.directionV = -1;
-    this.directionH = -1;
+    this.directionV = 1;
+    this.directionH = 1;
   }
 
   draw () {

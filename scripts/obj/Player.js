@@ -4,10 +4,13 @@ class Player {
   constructor (ctx, side, canvasWidth, canvasHeight) {
     this.ctx = ctx;
     this.side = side;
+    this.canvasHeight = canvasHeight;
+    this.canvasWidth = canvasWidth;
     this.y = canvasHeight / 2;
     this.width = 10;
     this.height = 120;
     this.speed = 0;
+    this.score = 0;
     this.direction = null;
 
     if (this.side === 'left') {
@@ -21,6 +24,13 @@ class Player {
     this.ctx.beginPath();
     this.ctx.fillStyle = 'white';
     this.ctx.fillRect(this.x - this.width / 2, this.y - this.height / 2, this.width, this.height);
+    this.ctx.fillStyle = 'grey';
+    this.ctx.font = '150px Arial';
+    if (this.side === 'left') {
+      this.ctx.fillText(this.score, this.canvasWidth / 2 - 100, 150);
+    } else {
+      this.ctx.fillText(this.score, this.canvasWidth / 2 + 100, 150);
+    }
   }
 
   setSpeed (speed) {
