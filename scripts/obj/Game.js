@@ -1,7 +1,7 @@
 'use strict';
 
 class Game {
-  constructor (ctx, canvasWidth, canvasHeight) {
+  constructor (ctx, canvasWidth, canvasHeight, cb) {
     this.ctx = ctx;
     this.canvasWidth = canvasWidth;
     this.canvasHeight = canvasHeight;
@@ -12,6 +12,10 @@ class Game {
 
     this.players = [];
     this.balls = [];
+
+    this.justScored = false;
+
+    this.endGame = cb;
   }
 
   buildSplash () {
@@ -111,6 +115,7 @@ class Game {
     this.checkBallCollisionPlayer(this.player1, 1);
     this.checkBallCollisionPlayer(this.player2, -1);
     this.checkPoint();
+    this.checkGameEnded();
     this.player1.update();
     this.player2.update();
     this.player1.draw();
@@ -165,9 +170,25 @@ class Game {
     this.balls.forEach(ball => {
       if (ball.centerX < 20) {
         this.player2.score++;
+        this.resetGameState();
       } else if (ball.centerX > this.canvasWidth - 19) {
         this.player1.score++;
+        this.resetGameState();
       }
+    });
+  }
+
+  checkGameEnded () {
+    this.players.forEach(player => {
+      if (player.score >= 3) {
+        this.endGame(player);
+      }
+    });
+  }
+
+  resetGameState () {
+    this.balls.forEach(ball => {
+      ball.resetPosition();
     });
   }
 

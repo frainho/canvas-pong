@@ -5,6 +5,8 @@ class Ball {
     this.ctx = ctx;
     this.centerX = canvasWidth / 2;
     this.centerY = canvasHeight / 2;
+    this.canvasWidth = canvasWidth;
+    this.canvasHeight = canvasHeight;
     this.radius = 10;
     this.directionV = 1;
     this.directionH = 1;
@@ -14,6 +16,11 @@ class Ball {
     this.ctx.fillStyle = 'white';
     this.ctx.arc(this.centerX, this.centerY, this.radius, 0, 2 * Math.PI);
     this.ctx.fill();
+  }
+
+  resetPosition () {
+    this.centerX = this.canvasWidth / 2;
+    this.centerY = this.canvasHeight / 2;
   }
 
   swapVertDirection () {
