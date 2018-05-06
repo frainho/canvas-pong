@@ -15,6 +15,7 @@ class Game {
 
     this.justScored = false;
 
+    this.ended = false;
     this.endGame = cb;
   }
 
@@ -56,6 +57,8 @@ class Game {
   }
 
   drawGame () {
+    this.ctx.fillStyle = 'black';
+    this.ctx.fillRect(0, 0, this.canvasWidth, this.canvasHeight);
     this.ctx.fillStyle = 'white';
     this.ctx.fillRect(10, 0, this.canvasWidth - 20, 20);
     this.ctx.fillRect(10, this.canvasHeight - 20, this.canvasWidth - 20, 20);
@@ -115,15 +118,17 @@ class Game {
     this.checkBallCollisionPlayer(this.player1, 1);
     this.checkBallCollisionPlayer(this.player2, -1);
     this.checkPoint();
-    this.checkGameEnded();
     this.player1.update();
     this.player2.update();
     this.player1.draw();
     this.player2.draw();
     this.ball.draw();
     this.ball.update();
+    this.checkGameEnded();
     window.requestAnimationFrame(() => {
-      this.doFrame();
+      if (!this.ended) {
+        this.doFrame();
+      }
     });
   }
 
@@ -181,6 +186,8 @@ class Game {
   checkGameEnded () {
     this.players.forEach(player => {
       if (player.score >= 3) {
+        this.ended = true;
+        this.destroy();
         this.endGame(player);
       }
     });
@@ -196,10 +203,11 @@ class Game {
     this.clearCanvas();
   }
 
-  buildGameOver () {
+  buildGameOver (winner) {
     this.ctx.font = '25px sans-serif';
     this.ctx.fillStyle = 'white';
     this.ctx.textAlign = 'center';
     this.ctx.fillText('Game Over', this.canvasWidth / 2, this.canvasHeight - this.canvasHeight / 2);
+    this.ctx.fillText(`The player on the ${winner.side} has won!`, this.canvasWidth / 2, this.canvasHeight - this.canvasHeight / 2 + 50);
   }
 }

@@ -5,7 +5,7 @@ function main () {
   const canvasHeight = 480;
 
   const canvas = new Canvas(canvasWidth, canvasHeight);
-  const game = new Game(canvas.ctx, canvasWidth, canvasHeight);
+  const game = new Game(canvas.ctx, canvasWidth, canvasHeight, gameEnded);
 
   // Build Splash
   function buildSplash () {
@@ -34,16 +34,19 @@ function main () {
     window.addEventListener('keyup', handleKeyUp);
   }
 
+  function gameEnded (winner) {
+    destroyGame(winner);
+  }
+
   // Destroy Game and build Game Over
-  function destroyGame () {
-    game.destroy();
-    buildGameOver();
+  function destroyGame (winner) {
+    buildGameOver(winner);
     window.removeEventListener('keydown', handleKeyDown);
     window.removeEventListener('keyup', handleKeyUp);
   }
 
-  function buildGameOver () {
-    game.buildGameOver();
+  function buildGameOver (winner) {
+    game.buildGameOver(winner);
     canvas.canvasElement.addEventListener('click', startGame);
   }
 
