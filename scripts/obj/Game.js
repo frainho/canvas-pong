@@ -1,7 +1,7 @@
 'use strict';
 
 class Game {
-  constructor (ctx, canvasWidth, canvasHeight, cb) {
+  constructor (ctx, canvasWidth, canvasHeight, cb, maxGoals) {
     this.ctx = ctx;
     this.canvasWidth = canvasWidth;
     this.canvasHeight = canvasHeight;
@@ -15,8 +15,9 @@ class Game {
 
     this.justScored = false;
 
+    this.maxGoals = maxGoals;
     this.ended = false;
-    this.endGame = cb;
+    this.endGameCallback = cb;
   }
 
   buildSplash () {
@@ -123,7 +124,7 @@ class Game {
     this.checkBallCollisionWall();
     this.checkBallCollisionPlayer(this.player1, 1);
     this.checkBallCollisionPlayer(this.player2, -1);
-    this.checkPoint();
+    this.checkHasScored();
     this.player1.update();
     this.player2.update();
     this.player1.draw();
@@ -141,9 +142,9 @@ class Game {
   checkPlayerCollisionWall () {
     this.players.forEach(player => {
       if (player.y - player.height / 2 <= 20) {
-        player.setPosition(5, 'up');
+        player.setPosition('top');
       } else if (player.y + player.height / 2 >= this.canvasHeight - 20) {
-        player.setPosition(5, 'down');
+        player.setPosition('bottom');
       }
     });
   }
@@ -177,7 +178,7 @@ class Game {
     });
   }
 
-  checkPoint () {
+  checkHasScored () {
     this.balls.forEach(ball => {
       if (ball.centerX < 20) {
         this.player2.score++;
@@ -193,10 +194,10 @@ class Game {
 
   checkGameEnded () {
     this.players.forEach(player => {
-      if (player.score >= 3) {
+      if (player.score >= this.maxGoals) {
         this.ended = true;
         this.destroy();
-        this.endGame(player);
+        this.endGameCallback(player);
       }
     });
   }

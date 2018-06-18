@@ -5,9 +5,10 @@ function main () {
   const canvasHeight = 600;
 
   const container = document.querySelector('.container');
+  const maxGoals = 3;
 
   const canvas = new Canvas(container, canvasWidth, canvasHeight);
-  const game = new Game(canvas.ctx, canvasWidth, canvasHeight, gameEnded);
+  const game = new Game(canvas.ctx, canvasWidth, canvasHeight, gameEnded, maxGoals);
 
   // Build Splash
   function buildSplash () {

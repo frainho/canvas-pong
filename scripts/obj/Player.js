@@ -62,11 +62,11 @@ class Player {
     this.y += this.speed;
   }
 
-  setPosition (offset, direction) {
-    if (direction === 'up') {
-      this.y += offset;
+  setPosition (boundary) {
+    if (boundary === 'top') {
+      this.y = 20 + this.height / 2;
     } else {
-      this.y -= offset;
+      this.y = this.canvasHeight - 20 - this.height / 2;
     }
   }
 }
