@@ -18,6 +18,8 @@ class Game {
     this.maxGoals = maxGoals;
     this.ended = false;
     this.endGameCallback = cb;
+
+    this.restartButtonTextY = 525;
   }
 
   buildSplash () {
@@ -42,7 +44,6 @@ class Game {
   }
 
   destroySplash () {
-    this.ctx.clearRect(0, 0, this.canvasWidth, this.canvasHeight);
     this.clearCanvas();
   }
 
@@ -129,8 +130,8 @@ class Game {
     this.player2.update();
     this.player1.draw();
     this.player2.draw();
-    this.ball.update();
     this.ball.draw();
+    this.ball.update();
     this.checkGameEnded();
     window.requestAnimationFrame(() => {
       if (!this.ended) {
@@ -212,11 +213,20 @@ class Game {
     this.clearCanvas();
   }
 
+  resetGame () {
+    this.players = [];
+    this.balls = [];
+  }
+
   buildGameOver (winner) {
+    this.resetGame();
     this.ctx.font = '25px sans-serif';
     this.ctx.fillStyle = 'white';
     this.ctx.textAlign = 'center';
     this.ctx.fillText('Game Over', this.canvasWidth / 2, this.canvasHeight - this.canvasHeight / 2);
     this.ctx.fillText(`The player on the ${winner.side} has won!`, this.canvasWidth / 2, this.canvasHeight - this.canvasHeight / 2 + 50);
+    this.ctx.fillRect(this.canvasWidth / 2 - 100, this.canvasHeight - this.canvasHeight / 5, 200, 75);
+    this.ctx.fillStyle = 'black';
+    this.ctx.fillText('Restart Game', this.canvasWidth / 2, this.restartButtonTextY);
   }
 }

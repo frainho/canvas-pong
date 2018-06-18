@@ -16,7 +16,7 @@ function main () {
     canvas.canvasElement.addEventListener('click', startGame);
   }
 
-  // Desktroy Splash and build Game
+  // Desktroy Splash and build Gthis.ended = false;ame
   function startGame () {
     canvas.canvasElement.removeEventListener('click', startGame);
     game.destroySplash();
@@ -32,6 +32,7 @@ function main () {
   }
 
   function buildGame () {
+    game.ended = false;
     game.build();
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('keyup', handleKeyUp);
