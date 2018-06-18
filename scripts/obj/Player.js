@@ -15,8 +15,10 @@ class Player {
 
     if (this.side === 'left') {
       this.x = 20;
-    } else {
+    } else if (this.side === 'right') {
       this.x = canvasWidth - 20;
+    } else {
+      throw new Error('Invalid side' + this.side);
     }
   }
 

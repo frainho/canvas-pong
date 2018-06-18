@@ -26,12 +26,18 @@ class Game {
     this.ctx.font = '70px sans-serif';
     this.ctx.textAlign = 'center';
     this.ctx.fillStyle = '#eee';
-    this.ctx.fillText('Ponglings', this.canvasWidth / 2, this.canvasHeight / 3);
+    this.ctx.fillText('Pong', this.canvasWidth / 2, this.canvasHeight / 3);
 
     this.ctx.font = '25px sans-serif';
     this.ctx.fillStyle = '#white';
     this.ctx.textAlign = 'center';
     this.ctx.fillText('Click to start the game', this.canvasWidth / 2, this.canvasHeight - this.canvasHeight / 3);
+    this.ctx.font = '20px sans-serif';
+    this.ctx.textAlign = 'left';
+    this.ctx.fillText('Click on the screen to start the game.', 10, this.canvasHeight - this.canvasHeight / 4);
+    this.ctx.fillText('Player 1: W - up, S - Down.', 10, this.canvasHeight - this.canvasHeight / 4 + 25);
+    this.ctx.fillText('Player 2: Arrow up - up, Arrow down - down', 10, this.canvasHeight - this.canvasHeight / 4 + 50);
+    this.ctx.fillText('First player to 3 points wins!', 10, this.canvasHeight - this.canvasHeight / 4 + 75);
   }
 
   destroySplash () {
@@ -122,8 +128,8 @@ class Game {
     this.player2.update();
     this.player1.draw();
     this.player2.draw();
-    this.ball.draw();
     this.ball.update();
+    this.ball.draw();
     this.checkGameEnded();
     window.requestAnimationFrame(() => {
       if (!this.ended) {
@@ -144,15 +150,15 @@ class Game {
 
   checkBallCollisionWall () {
     this.balls.forEach(ball => {
-      if (ball.centerY - ball.radius < 20 && ball.directionV !== 1) {
+      if ((ball.centerY - ball.radius < 20) && (ball.directionV !== 1)) {
         ball.swapVertDirection();
-      } else if (ball.centerY + ball.radius > this.canvasHeight - 20 && ball.directionV !== -1) {
+      } else if ((ball.centerY + ball.radius > this.canvasHeight - 20) && (ball.directionV !== -1)) {
         ball.swapVertDirection();
       }
     });
   }
 
-  checkBallCollisionPlayer (player, sign) {
+  checkBallCollisionPlayer (player) {
     this.balls.forEach(ball => {
       const collidesPlayerTop = ball.centerY - ball.radius > player.y - player.height / 2;
       const collidesPlayerBottom = ball.centerY + ball.radius < player.y + player.height / 2;
@@ -175,9 +181,11 @@ class Game {
     this.balls.forEach(ball => {
       if (ball.centerX < 20) {
         this.player2.score++;
+        this.ball.updateSpeed();
         this.resetGameState();
       } else if (ball.centerX > this.canvasWidth - 19) {
         this.player1.score++;
+        this.ball.updateSpeed();
         this.resetGameState();
       }
     });

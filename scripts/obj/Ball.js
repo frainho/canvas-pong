@@ -10,6 +10,7 @@ class Ball {
     this.radius = 10;
     this.directionV = 1;
     this.directionH = 1;
+    this.speed = 2;
   }
 
   draw () {
@@ -32,7 +33,11 @@ class Ball {
   }
 
   update () {
-    this.centerY = this.directionV + this.centerY;
-    this.centerX = this.directionH + this.centerX;
+    this.centerY = (this.directionV * this.speed) + this.centerY;
+    this.centerX = (this.directionH * this.speed) + this.centerX;
+  }
+
+  updateSpeed () {
+    this.speed++;
   }
 }

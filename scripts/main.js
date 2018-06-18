@@ -1,10 +1,12 @@
 'use strict';
 
 function main () {
-  const canvasWidth = 640;
-  const canvasHeight = 480;
+  const canvasWidth = 800;
+  const canvasHeight = 600;
 
-  const canvas = new Canvas(canvasWidth, canvasHeight);
+  const container = document.querySelector('.container');
+
+  const canvas = new Canvas(container, canvasWidth, canvasHeight);
   const game = new Game(canvas.ctx, canvasWidth, canvasHeight, gameEnded);
 
   // Build Splash
