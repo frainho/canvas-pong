@@ -19,7 +19,16 @@ class Game {
     this.ended = false;
     this.endGameCallback = cb;
 
+    this.restartButtonStartX = this.canvasWidth / 2 - 100;
+    this.restartButtonStartY = this.canvasHeight - this.canvasHeight / 5;
+
     this.restartButtonTextY = 525;
+    this.buttonWidth = 200;
+    this.buttonHeight = 75;
+
+    this.borderWidth = 20;
+
+    this.gameOverTextWinnerY = this.canvasHeight - this.canvasHeight / 2 + 50;
   }
 
   buildSplash () {
@@ -68,8 +77,8 @@ class Game {
     this.ctx.fillStyle = 'black';
     this.ctx.fillRect(0, 0, this.canvasWidth, this.canvasHeight);
     this.ctx.fillStyle = 'white';
-    this.ctx.fillRect(10, 0, this.canvasWidth - 20, 20);
-    this.ctx.fillRect(10, this.canvasHeight - 20, this.canvasWidth - 20, 20);
+    this.ctx.fillRect(10, 0, this.canvasWidth - this.borderWidth, this.borderWidth);
+    this.ctx.fillRect(10, this.canvasHeight - this.borderWidth, this.canvasWidth - this.borderWidth, this.borderWidth);
     this.ctx.strokeStyle = 'white';
     this.ctx.beginPath();
     this.ctx.setLineDash([30, 15]);
@@ -142,9 +151,9 @@ class Game {
 
   checkPlayerCollisionWall () {
     this.players.forEach(player => {
-      if (player.y - player.height / 2 <= 20) {
+      if (player.y - player.height / 2 <= this.borderWidth) {
         player.setPosition('top');
-      } else if (player.y + player.height / 2 >= this.canvasHeight - 20) {
+      } else if (player.y + player.height / 2 >= this.canvasHeight - this.borderWidth) {
         player.setPosition('bottom');
       }
     });
@@ -152,9 +161,9 @@ class Game {
 
   checkBallCollisionWall () {
     this.balls.forEach(ball => {
-      if ((ball.centerY - ball.radius < 20) && (ball.directionV !== 1)) {
+      if ((ball.centerY - ball.radius < this.borderWidth) && (ball.directionV !== 1)) {
         ball.swapVertDirection();
-      } else if ((ball.centerY + ball.radius > this.canvasHeight - 20) && (ball.directionV !== -1)) {
+      } else if ((ball.centerY + ball.radius > this.canvasHeight - this.borderWidth) && (ball.directionV !== -1)) {
         ball.swapVertDirection();
       }
     });
@@ -185,7 +194,7 @@ class Game {
         this.player2.score++;
         this.ball.updateSpeed();
         this.resetGameState();
-      } else if (ball.centerX > this.canvasWidth - 19) {
+      } else if (ball.centerX > this.canvasWidth - this.borderWidth - 1) {
         this.player1.score++;
         this.ball.updateSpeed();
         this.resetGameState();
@@ -224,8 +233,8 @@ class Game {
     this.ctx.fillStyle = 'white';
     this.ctx.textAlign = 'center';
     this.ctx.fillText('Game Over', this.canvasWidth / 2, this.canvasHeight - this.canvasHeight / 2);
-    this.ctx.fillText(`The player on the ${winner.side} has won!`, this.canvasWidth / 2, this.canvasHeight - this.canvasHeight / 2 + 50);
-    this.ctx.fillRect(this.canvasWidth / 2 - 100, this.canvasHeight - this.canvasHeight / 5, 200, 75);
+    this.ctx.fillText(`The player on the ${winner.side} has won!`, this.canvasWidth / 2, this.gameOverTextWinnerY);
+    this.ctx.fillRect(this.restartButtonStartX, this.restartButtonStartY, this.buttonWidth, this.buttonHeight);
     this.ctx.fillStyle = 'black';
     this.ctx.fillText('Restart Game', this.canvasWidth / 2, this.restartButtonTextY);
   }

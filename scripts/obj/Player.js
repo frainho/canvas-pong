@@ -12,11 +12,14 @@ class Player {
     this.speed = 0;
     this.score = 0;
     this.direction = null;
+    this.borderWidth = 20;
+    this.writeScoreOffsetX = 100;
+    this.writeScoreOffsetY = 150;
 
     if (this.side === 'left') {
-      this.x = 20;
+      this.x = this.borderWidth;
     } else if (this.side === 'right') {
-      this.x = canvasWidth - 20;
+      this.x = canvasWidth - this.borderWidth;
     } else {
       throw new Error('Invalid side' + this.side);
     }
@@ -29,9 +32,9 @@ class Player {
     this.ctx.fillStyle = 'grey';
     this.ctx.font = '150px Arial';
     if (this.side === 'left') {
-      this.ctx.fillText(this.score, this.canvasWidth / 2 - 100, 150);
+      this.ctx.fillText(this.score, this.canvasWidth / 2 - this.writeScoreOffsetX, this.writeScoreOffsetY);
     } else {
-      this.ctx.fillText(this.score, this.canvasWidth / 2 + 100, 150);
+      this.ctx.fillText(this.score, this.canvasWidth / 2 + this.writeScoreOffsetX, this.writeScoreOffsetY);
     }
   }
 
@@ -64,9 +67,9 @@ class Player {
 
   setPosition (boundary) {
     if (boundary === 'top') {
-      this.y = 20 + this.height / 2;
+      this.y = this.borderWidth + this.height / 2;
     } else {
-      this.y = this.canvasHeight - 20 - this.height / 2;
+      this.y = this.canvasHeight - this.borderWidth - this.height / 2;
     }
   }
 }
